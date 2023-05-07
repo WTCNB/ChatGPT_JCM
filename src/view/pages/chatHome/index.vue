@@ -1,34 +1,7 @@
 <template>
   <div class="chatHome">
-    <div class="chatLeft" style="width:20%" v-show="showPersonList">
-      <div class="title" style="text-align: center;">
-        <h2>OpenAI Manager</h2>
-      </div>
-      <div class="online-person" style="margin-top: 5%;">
-        <el-row :gutter="24">
-          <el-col :span="6">
-            <div class="setting" style="text-align: center;">
-              <span class="" @click="sessionClick" :class="{ whiteText: cutSetting === 1 }">{{ $t('session.title')
-              }}</span>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="setting" style="text-align: center;">
-              <span class="" @click="modelClick" :class="{ whiteText: cutSetting === 0 }">{{ $t('model.title') }}</span>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="setting" style="text-align: center;">
-              <span class="" @click="fineTuningClick" :class="{ whiteText: cutSetting === 2 }">{{
-                $t('slightly.title.whole') }}</span>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="setting" style="text-align: center;">
-              <span class="" @click="fileClick" :class="{ whiteText: cutSetting === 3 }">{{ $t('file.title') }}</span>
-            </div>
-          </el-col>
-        </el-row>
+  <div class="chatLeft" style="width:10%" v-show="showPersonList">
+      <div class="online-person" style="margin-top: 15%;">
         <div v-show="cutSetting == 0">
           <input class="inputs" v-model="modelSearch" style=" margin-top: 10px;"
             :placeholder="$t('placeholder.model_name')" />
@@ -39,9 +12,9 @@
             </div>
           </div>
         </div>
-
+        
         <div v-show="cutSetting == 1">
-          <input class="inputs" v-model="sessionSearch" style=" margin-top: 10px;"
+          <input class="inputs" v-model="sessionSearch" style=" margin-top: 20px;"
             :placeholder="$t('placeholder.session_name')" />
           <div class="s-wrapper">
             <div v-for="sessionInfo in sessionList" :key="sessionInfo.id" @click="clickSession(sessionInfo)">
@@ -49,55 +22,12 @@
             </div>
           </div>
         </div>
-
-        <div v-show="cutSetting == 2">
-          <input class="inputs" v-model="fineTuningSearch" style=" margin-top: 10px;"
-            :placeholder="$t('placeholder.slightly_name')" />
-          <div class="s-wrapper">
-            <div class="personList" v-for="fineTuningInfo in fineTuningList" :key="fineTuningInfo.id"
-              @click="clickFineTuning(fineTuningInfo)">
-              <PersonCard :personInfo="fineTuningInfo" :pcCurrent="ftCurrent"></PersonCard>
-            </div>
-          </div>
-        </div>
-
-        <div v-show="cutSetting == 3">
-          <input class="inputs" v-model="fileSearch" style=" margin-top: 10px;"
-            :placeholder="$t('placeholder.file_name')" />
-
-          <div class="s-wrapper">
-            <div class="personList" v-for="(fileInfo, index) in fileList" :key="index" @click="clickFile(fileInfo)">
-              <File :fileInfo="fileInfo" :pcCurrent="fiCurrent"></File>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
     <div class="chatRight">
       <!-- <router-view></router-view> -->
-      <div class="top-left" @click="toggleLeft">
-        <svg t="1679366341860" class="icon" v-show="!showPersonList" viewBox="0 0 1024 1024" version="1.1"
-          xmlns="http://www.w3.org/2000/svg" p-id="5764" width="30" height="30">
-          <path
-            d="M912.8 513.2C912.8 733.1 733.9 912 514 912S115.2 733.1 115.2 513.2 294.1 114.3 514 114.3s398.8 179 398.8 398.9z m-701.5 0c0 166.9 135.8 302.7 302.7 302.7s302.7-135.8 302.7-302.7S680.9 210.5 514 210.5 211.3 346.3 211.3 513.2z"
-            fill="#BDD2EF" p-id="5765"></path>
-          <path
-            d="M626.8 345.9c0 15-5.7 30.1-17.2 41.5L487.1 510l122.6 122.6c22.9 22.9 22.9 60.2 0 83.1-22.9 22.9-60.2 22.9-83.1 0L362.4 551.6c-22.9-22.9-22.9-60.2 0-83.1l164.1-164.1c22.9-22.9 60.2-22.9 83.1 0 11.5 11.5 17.2 26.5 17.2 41.5z"
-            fill="#2867CE" p-id="5766"></path>
-        </svg>
-        <svg t="1679366707602" class="icon" v-show="showPersonList" viewBox="0 0 1024 1024" version="1.1"
-          xmlns="http://www.w3.org/2000/svg" p-id="7551" width="30" height="30">
-          <path
-            d="M514 912c-219.9 0-398.8-178.9-398.8-398.9 0-219.9 178.9-398.8 398.8-398.8s398.8 178.9 398.8 398.8c0 220-178.9 398.9-398.8 398.9z m0-701.5c-166.9 0-302.7 135.8-302.7 302.7S347.1 815.9 514 815.9s302.7-135.8 302.7-302.7S680.9 210.5 514 210.5z"
-            fill="#BDD2EF" p-id="7552"></path>
-          <path
-            d="M402.5 677.3c0-15 5.7-30.1 17.2-41.5l122.6-122.6-122.6-122.6c-22.9-22.9-22.9-60.2 0-83.1 22.9-22.9 60.2-22.9 83.1 0l164.1 164.1c22.9 22.9 22.9 60.2 0 83.1L502.8 718.8c-22.9 22.9-60.2 22.9-83.1 0-11.5-11.4-17.2-26.5-17.2-41.5z"
-            fill="#2867CE" p-id="7553"></path>
-        </svg>
-      </div>
-
-      <div class="top-right" @click="toggleRight">
+      <!--右边的箭头设置-->
+      <div class="bottom-right" @click="toggleRight">
         <svg t="1679366707602" class="icon" v-show="!showSetupList" viewBox="0 0 1024 1024" version="1.1"
           xmlns="http://www.w3.org/2000/svg" p-id="7551" width="30" height="30">
           <path
@@ -117,31 +47,27 @@
             fill="#2867CE" p-id="5766"></path>
         </svg>
       </div>
-
+      
+      <!--聊天窗口的显示-->
       <div v-if="showChatWindow" v-show="showMainContent">
         <ChatWindow ref="chatWindow" :frinedInfo="chatWindowInfo" :settingInfo="SettingInfo" :storeStatu="storeStatus"
           @personCardSort="personCardSort"></ChatWindow>
       </div>
-      <div class="showIcon" v-else>
-        <svg t="1679552353056" class="icon iconfont icon-snapchat" viewBox="0 0 1024 1024" version="1.1"
-          xmlns="http://www.w3.org/2000/svg" p-id="3488" width="200" height="200">
-          <path
-            d="M992.33 416.37c17.66 0 31.98-14.32 31.98-31.98s-14.32-31.98-31.98-31.98h-63.98v-63.96h63.98c17.66 0 31.98-14.32 31.98-31.98s-14.32-31.98-31.98-31.98h-63.98v-95.94c0.01-8.48-3.36-16.62-9.35-22.62-6-6-14.14-9.37-22.62-9.36h-95.94V32.61c0-17.67-14.32-31.98-31.98-31.98-17.67 0-31.98 14.32-31.98 31.98v63.96h-63.96V32.61c0-17.67-14.32-31.98-31.98-31.98-17.67 0-31.98 14.32-31.98 31.98v63.96H544.6V32.61c0-17.67-14.32-31.98-31.98-31.98-17.67 0-31.98 14.32-31.98 31.98v63.96h-63.96V32.61c0-17.67-14.32-31.98-31.98-31.98s-31.98 14.32-31.98 31.98v63.96h-63.96V32.61c0-17.67-14.32-31.98-31.98-31.98S224.8 14.95 224.8 32.61v63.96h-95.94c-8.48 0-16.62 3.36-22.62 9.36s-9.36 14.14-9.36 22.62v95.94H32.92c-17.67 0-31.98 14.32-31.98 31.98s14.32 31.98 31.98 31.98h63.96v63.96H32.92c-17.67 0-31.98 14.32-31.98 31.98 0 17.67 14.32 31.98 31.98 31.98h63.96v63.97H32.92c-17.66 0-31.97 14.31-31.97 31.97 0 17.65 14.31 31.97 31.97 31.97h63.96v63.98H32.92c-17.66 0-31.97 14.31-31.97 31.97 0 17.66 14.31 31.97 31.97 31.97h63.96v63.98H32.92C15.26 736.18 0.95 750.5 0.95 768.15s14.31 31.97 31.97 31.97h63.96v95.95a31.944 31.944 0 0 0 9.36 22.62c6 5.99 14.14 9.36 22.62 9.35h95.94v63.98c0 17.66 14.32 31.98 31.98 31.98 17.67 0 31.98-14.32 31.98-31.98v-63.98h63.96v63.98c0 17.66 14.32 31.98 31.98 31.98 17.67 0 31.98-14.32 31.98-31.98v-63.98h63.96v63.98c0 17.66 14.32 31.98 31.98 31.98s31.98-14.32 31.98-31.98v-63.98h63.96v63.98c0 17.66 14.32 31.98 31.98 31.98s31.98-14.32 31.98-31.98v-63.98h63.96v63.98c0 17.66 14.32 31.98 31.98 31.98s31.98-14.32 31.98-31.98v-63.98h95.94c8.48 0.02 16.62-3.35 22.62-9.35s9.37-14.14 9.35-22.62v-95.95h63.98c17.65 0 31.97-14.31 31.97-31.97 0-17.66-14.31-31.97-31.97-31.97h-63.98V672.2h63.98c17.65 0 31.97-14.31 31.97-31.97 0-17.66-14.31-31.97-31.97-31.97h-63.98v-63.98h63.98c17.65 0 31.97-14.31 31.97-31.97 0-17.66-14.31-31.97-31.97-31.97h-63.98v-63.97h63.98zM864.41 864.1H160.84V160.53h703.57V864.1zM406.82 580.42h79.2l15.48 61.56h67.68l-83.16-267.84h-77.04l-83.16 267.84h65.52l15.48-61.56z m18-72.36c6.84-26.64 14.04-57.96 20.52-86.04h1.44c7.2 27.36 14.04 59.4 21.24 86.04l5.76 22.68h-54.72l5.76-22.68zM697.7 641.98h-64.44V374.14h64.44v267.84z"
-            p-id="3489"></path>
-        </svg>
-      </div>
     </div>
-
-    <div class="chatLeft" v-show="showSetupList">
+    
+    <div class="chatLeft" v-show="!showSetupList">
 
       <el-card shadow="hover" id="jianbian" style="line-height: 120%;text-align: center;">
         <div>
-          <input class="inputs" v-model="SettingInfo.KeyMsg" :placeholder="$t('placeholder.openai_key')" type="password"
-            auto-complete="new-password" autocomplete="new-password"
+          <input class="inputs" v-model="SettingInfo.KeyMsg" :placeholder="$t('placeholder.openai_key')" type="text"
+            auto-complete="off" autocomplete="off"
             style="width: 100%; margin-left: 0px;margin-right: 0px;" />
         </div>
+        <div style="margin-top: 10px;">
+      <el-button type="primary" @click="updateApiKey">{{ $t('确定') }}</el-button>
+    </div>
       </el-card>
-
+      <!--对话设置-->
       <div class="online-person">
         <el-row :gutter="20">
           <el-col :span="6" v-for="(setting, index) in getSettings" :key="index"> <span class="setting"
@@ -539,7 +465,7 @@
             <div v-show="SettingStatus == 5">
               <div class="session boxinput" @click="newSession">
                 <svg t="1679215361568" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                  xmlns="http://www.w3.org/2000/svg" p-id="3128" width="25" height="25">
+                  xmlns="http://www.w3.org/2000/svg" p-id="3128" width="60" height="25">
                   <path
                     d="M512.001024 0A512 512 0 0 0 0.001024 512a506.88 506.88 0 0 0 92.16 292.352V972.8a51.2 51.2 0 0 0 51.2 51.2H512.001024a512 512 0 0 0 0-1024z m0 921.6H194.561024v-134.144a51.2 51.2 0 0 0-10.24-30.72A406.016 406.016 0 0 1 102.401024 512a409.6 409.6 0 1 1 409.6 409.6z"
                     fill="#ffffff" p-id="3129"></path>
@@ -601,7 +527,7 @@
               </div> -->
               <div class="session boxinput" @click="changeLanguage"
                 style="margin-left: 0px;margin-right: 0px;width: 99%;">
-                <span class="iconfont icon-iconyuanbanben_fanyi" style="color: #fff; margin-right:10px;"></span>
+                <span class="iconfont icon-iconyuanbanben_fanyi" style="color: #000; margin-right:10px;"></span>
                 {{ $t('setting.Language') }}
               </div>
 
@@ -652,6 +578,9 @@ export default {
         totalGranted: 0,
         totalUsed: 0,
         totalAvailable: 0
+      },
+      SettingInfo: {
+        KeyMsg: process.env.VUE_APP_OPENAI_API_KEY,
       },
       batch_sizeStr: "",
       //全部的设置参数
@@ -897,7 +826,10 @@ export default {
         this.fineTuningList = this.fineTuningCacheList.filter(fineTunin => fineTunin.fineTunesStatus === "succeeded")
       }
     },
-
+    updateApiKey() {
+      // 此处可以添加输入正确性的检查，如果检查失败可以弹出提示消息
+      this.SettingInfo.KeyMsg = this.$refs.apiKeyInput.value
+    },
     //导入会话列表触发的方法
     importFromJsonArrAll() {
       this.$refs.onupdateJosnArrAll.click(); // 触发选择文件的弹框
@@ -1413,11 +1345,21 @@ export default {
   cursor: pointer;
 }
 
+.bottom-right {
+  position: absolute;
+  bottom: 5px;
+  cursor: pointer;
+}
+
 .top-left {
   left: 5px;
 }
 
 .top-right {
+  right: 5px;
+}
+
+.bottom-right {
   right: 5px;
 }
 
@@ -1434,7 +1376,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 10px;
   margin-left: 20px;
   margin-right: 20px;
-  width: 90%;
+  width: 120%;
   text-align: center;
   height: 50px;
   background-color: rgb(66, 70, 86);
