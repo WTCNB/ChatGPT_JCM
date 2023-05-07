@@ -1,4 +1,5 @@
 <template>
+
   <div class="chat-window">
     <div class="top">
       <el-row style="height: 70px;">
@@ -6,17 +7,20 @@
         <el-col :span="personInfoSpan[0]">
           <div class="head-pic">
             <HeadPortrait :imgUrl="frinedInfo.headImg"></HeadPortrait>
+            
           </div>
         </el-col>
-
+        
         <el-col :span="personInfoSpan[1]">
           <div class="info-detail">
             <div class="name">{{ frinedInfo.name }}</div>
             <div class="detail">{{ frinedInfo.detail }}</div>
-          </div>
+          </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <a href="指定网页网址" style="color:white; text-decoration:none;font-size: 25px;">账号购买</a>
         </el-col>
         <el-col :span="personInfoSpan[2]">
           <div class="other-fun">
+           
             <!-- <label @click="changeLanguage">
               <span class="iconfont">
                 <svg t="1680840158581" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5743" id="mx_n_1680840158585" width="25" height="25"><path d="M424.7 343.4H386c-1.1 0-2 0.9-2 2v81.3c0 1.1 0.9 2 2 2h38.7c1.1 0 2-0.9 2-2v-81.3c0-1.1-0.9-2-2-2zM296.7 343.4H258c-1.1 0-2 0.9-2 2v81.3c0 1.1 0.9 2 2 2h38.7c1.1 0 2-0.9 2-2v-81.3c0-1.1-0.9-2-2-2z" fill="#76798a" p-id="5744"></path><path d="M896 130H128c-23.6 0-42.7 19.1-42.7 42.7v682.7c0 23.6 19.1 42.7 42.7 42.7h768c23.6 0 42.7-19.1 42.7-42.7V172.7c0-23.6-19.1-42.7-42.7-42.7zM170.6 471.4V300.7c0-23.5 19.2-42.7 42.7-42.7h85.3c0-23.5 19.2-42.7 42.7-42.7S384 234.5 384 258h85.3c23.5 0 42.7 19.2 42.7 42.7v170.6c0 23.5-19.2 42.7-42.7 42.7H384v42.8c0 23.5-19.2 42.7-42.7 42.7s-42.7-19.2-42.7-42.7v-42.7h-85.3c-23.5 0-42.7-19.2-42.7-42.7zM512 791.3c-93.1 0-179.6-46.3-231.1-124-6.5-9.7-3.8-23 6-29.5 9.7-6.5 23-3.9 29.5 6 43.7 65.7 116.8 104.9 195.6 104.9 11.8 0 21.3 9.5 21.3 21.3s-9.5 21.3-21.3 21.3z m65.3-525.8c3.9-11.1 16.2-16.9 27.2-13 56.3 19.9 105.6 58.3 138.7 108.2 6.5 9.7 3.8 23-6 29.5-3.6 2.4-7.7 3.6-11.8 3.6-6.9 0-13.7-3.3-17.8-9.5-28.1-42.2-69.8-74.8-117.3-91.6-11.1-3.9-16.9-16.1-13-27.2z m233.4 547.2H640c-23.5 0-42.7-19.2-42.7-42.7V471.5c0-23.5 19.2-42.7 42.7-42.7h169.9c23.8 0 43.7 19.4 43.4 43.2-0.4 23.2-19.4 42.1-42.7 42.1h-126c-1.1 0-2 0.9-2 2v60c0 1.1 0.9 2 2 2h126c23.3 0 42.4 18.9 42.7 42.1 0.4 23.7-19.6 43.2-43.4 43.2H684.7c-1.1 0-2 0.9-2 2v60c0 1.1 0.9 2 2 2h125.2c23.8 0 43.8 19.4 43.5 43.2-0.4 23.2-19.4 42.1-42.7 42.1z" fill="#76798a" p-id="5745"></path></svg>
@@ -45,11 +49,12 @@
         </el-col>
       </el-row>
 
-    </div>
+    
     <div v-show="!acqStatus">
       <div class="line"></div>
     </div>
-
+</div>
+     
     <div class="botoom" style="background-color:rgb(50, 54, 68);">
       <!-- :style="{ backgroundImage: 'url(' + contentBackImageUrl + ')' }" -->
       <div class="chat-content" id="chat-content" ref="chatContent" @scroll="onScroll">
@@ -131,7 +136,7 @@
           <!--发送-->
         <div>
           <div class="send boxinput" @click="sendText">
-            <img src="@/assets/img/emoji/rocket.png" alt="" />
+            <img src="@/assets/img/emoji/sendmessage.png" alt="" />
           </div>
         </div>
       </div>
@@ -388,7 +393,7 @@ export default {
         formData.append('response_format', "text")
 
         if (this.settingInfo.translateEnglish) {
-          createTranslation(formData, this.settingInfo.KeyMsg).then(data => {
+          createTranslation(formData, this.settingInfo).then(data => {
             this.$nextTick(() => {
               this.inputMsg = data;
             });
@@ -396,7 +401,7 @@ export default {
         } else {
           formData.append('language', this.settingInfo.language)
 
-          createTranscription(formData, this.settingInfo.KeyMsg).then(data => {
+          createTranscription(formData, this.settingInfo).then(data => {
             this.$nextTick(() => {
               this.inputMsg = data;
             });
@@ -492,7 +497,7 @@ export default {
           this.sendMsg(chatMsg);
           this.inputMsg = "";
 
-          createImageEdit(formData, this.settingInfo.KeyMsg).then(data => {
+          createImageEdit(formData, this.settingInfo).then(data => {
             for (var imgInfo of data) {
               let imgResMsg = {
                 headImg: AI_HEAD_IMG_URL,
@@ -531,7 +536,7 @@ export default {
           params.prompt = this.inputMsg,
             params.n = this.settingInfo.n,
             params.size = this.settingInfo.size,
-            createImage(params, this.settingInfo.KeyMsg).then(data => {
+            createImage(params, this.settingInfo).then(data => {
               for (var imgInfo of data) {
                 let imgResMsg = {
                   headImg: AI_HEAD_IMG_URL,
@@ -678,7 +683,7 @@ export default {
                       ...params
                   }),
                   headers: {
-                      Authorization: 'Bearer ' + this.settingInfo.KeyMsg,
+                      Authorization: 'Bearer ' + this.settingInfo,
                       "Content-Type": "application/json",
                       Accept: "application/json",
                   },
@@ -695,7 +700,7 @@ export default {
                 ...params
               }),
               headers: {
-                Authorization: 'Bearer ' + this.settingInfo.KeyMsg,
+                Authorization: 'Bearer ' + this.settingInfo,
                 "Content-Type": "application/json",
                 Accept: "application/json",
               },
@@ -740,7 +745,7 @@ export default {
             ...params
           }),
           headers: {
-            Authorization: 'Bearer ' + this.settingInfo.KeyMsg,
+            Authorization: 'Bearer ' + this.settingInfo,
             "Content-Type": "application/json"
           },
         }
@@ -872,7 +877,7 @@ export default {
       };
       this.sendMsg(chatMsg);
 
-      createImageVariations(formData, this.settingInfo.KeyMsg).then(data => {
+      createImageVariations(formData, this.settingInfo).then(data => {
         for (var imgInfo of data) {
           let imgResMsg = {
             headImg: AI_HEAD_IMG_URL,
@@ -1109,7 +1114,7 @@ textarea::-webkit-scrollbar-thumb {
     width: 100%;
     height: 85vh;
     background-size: 100% 100%;
-    // background-color: rgb(50, 54, 68);
+    background-color: rgb(50, 54, 68);
     border-radius: 20px;
     padding: 0px;
     box-sizing: border-box;
@@ -1146,9 +1151,9 @@ textarea::-webkit-scrollbar-thumb {
 
         .chat-text {
           float: left;
-          max-width: 90%;
+          max-width: 100%;
           padding: 15px;
-          max-width: 650px;
+          max-width: 1300px;
           border-radius: 20px 20px 20px 5px;
           background-color: #fff;
         }
