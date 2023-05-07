@@ -1,7 +1,7 @@
 <template>
   <div class="home" :class="{'is-pc':isPc}">
-    <el-container height="100%">
-      <el-aside width="100px" v-show="asideStatus">
+    <el-container height="10%">
+      <el-aside width="10px" v-show="!asideStatus">
         <Nav></Nav>
       </el-aside>
       <el-main>
@@ -12,14 +12,10 @@
 </template>
 
 <script>
-import Nav from "../components/Nav.vue";
 import { isPc } from '@/util/util.js'
 
 export default {
   name: "App",
-  components: {
-    Nav,
-  },
   computed:{
     isPc:()=>isPc()
   },
